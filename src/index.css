@@ -1,0 +1,218 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ------------------------------------------------------- design tokens */
+/* Colors, type scale and radii follow the project design system:
+   radii 10 / 16 / 22 / 32 · sizes 12 / 14 / 16 / 18 / 20 / 24 / 30 / 36 / 64 / 120 */
+
+:root {
+  --background: #eaf3f6;
+  --foreground: #0f2130;
+
+  --card: #ffffff;
+  --card-soft: #f6f9fc;
+  --border: #e4edf3;
+  --input: #f6f9fc;
+
+  --primary: #1593cc;
+  --primary-foreground: #ffffff;
+  --secondary: #d8edfc;
+  --secondary-foreground: #1f7fae;
+
+  --muted: #dbe7f0;
+  --muted-foreground: #7b93a5;
+
+  --sun: #f0a63c;
+  --sun-soft: #fff3d5;
+  --sun-ink: #8a6b28;
+  --sky: #a9d5ec;
+  --ink-soft: #0f2130;
+
+  --bar-from: #e1eaf0;
+  --bar-water: #a8cbdf;
+  --bar-sage: #b7c39c;
+  --bar-gold: #e9c97e;
+  --bar-gold-2: #f4ae3c;
+
+  --card-shadow: 0 1px 2px rgba(16, 38, 50, 0.04),
+    0 10px 26px -18px rgba(16, 38, 50, 0.18);
+}
+
+.dark {
+  --background: #0b161c;
+  --foreground: #eaf2f7;
+
+  --card: #12232c;
+  --card-soft: #182b35;
+  --border: #1e313b;
+  --input: #16262f;
+
+  --primary: #5fbdea;
+  --primary-foreground: #08202c;
+  --secondary: #16303d;
+  --secondary-foreground: #79c6e8;
+
+  --muted: #1b2c35;
+  --muted-foreground: #93a6b1;
+
+  --sun: #f0bc55;
+  --sun-soft: #2b2618;
+  --sun-ink: #e8cd8c;
+  --sky: #26495c;
+  --ink-soft: #24404e;
+
+  --bar-from: #22343f;
+  --bar-water: #3b6a83;
+  --bar-sage: #61745a;
+  --bar-gold: #a8823a;
+  --bar-gold-2: #d99a34;
+
+  --card-shadow: 0 1px 2px rgba(0, 0, 0, 0.3),
+    0 10px 26px -18px rgba(0, 0, 0, 0.6);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  --color-card: var(--card);
+  --color-card-soft: var(--card-soft);
+  --color-border: var(--border);
+  --color-input: var(--input);
+
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+
+  --color-sun: var(--sun);
+  --color-sun-soft: var(--sun-soft);
+  --color-sun-ink: var(--sun-ink);
+  --color-sky: var(--sky);
+  --color-ink-soft: var(--ink-soft);
+
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+    sans-serif;
+  --font-heading: "Nunito", ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+    sans-serif;
+
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 22px;
+  --radius-xl: 32px;
+
+  --shadow-card: var(--card-shadow);
+
+  --animate-rise: rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-pop: pop 0.24s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes pop {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ----------------------------------------------------------------- base */
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    scrollbar-gutter: stable;
+  }
+
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans);
+    font-size: 14px;
+    transition: background-color 0.45s ease, color 0.45s ease;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-heading);
+  }
+
+  ::selection {
+    background: var(--secondary);
+    color: var(--foreground);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+  }
+}
+
+/* ----------------------------------------------------------- components */
+@layer components {
+  .range-bar {
+    background-image: linear-gradient(
+      90deg,
+      var(--bar-from) 0%,
+      var(--bar-water) 24%,
+      var(--bar-sage) 58%,
+      var(--bar-gold) 82%,
+      var(--bar-gold-2) 100%
+    );
+  }
+
+  .no-scrollbar {
+    scrollbar-width: none;
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .thin-scroll {
+    scrollbar-width: thin;
+    scrollbar-color: var(--muted) transparent;
+  }
+
+  .thin-scroll::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .thin-scroll::-webkit-scrollbar-thumb {
+    border-radius: 999px;
+    background: var(--muted);
+  }
+
+  .thin-scroll::-webkit-scrollbar-track {
+    background: transparent;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
