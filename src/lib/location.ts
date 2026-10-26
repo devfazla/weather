@@ -158,8 +158,11 @@ export async function reverseGeocode(lat: number, lon: number): Promise<Place | 
       localityLanguage: "en",
     });
 
+    // The old api.bigdatacloud.net host answers with a 307 to this one, and the
+    // browser has to be allowed to reach wherever a redirect lands. Asking the
+    // final host directly keeps one origin in the policy instead of two.
     const response = await fetch(
-      `https://api.bigdatacloud.net/data/reverse-geocode-client?${params.toString()}`,
+      `https://api-bdc.io/data/reverse-geocode-client?${params.toString()}`,
     );
     if (!response.ok) return null;
 
