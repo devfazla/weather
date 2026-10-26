@@ -18,7 +18,7 @@ A weather dashboard built with React, TypeScript and Tailwind CSS v4. Live condi
 - °C / °F without a refetch, since the API is queried in Celsius either way.
 - Light and dark themes are token-driven and applied through a `dark` class on `<html>`.
 - A built-in sample snapshot paints the layout instantly and survives failed requests; the footer offers a retry.
-- `/contact` is a proper route. Input is validated in the browser and posted to the bot, and a `mailto:` draft takes over if the send fails.
+- `/contact` is a proper route: a validated form that posts to the bot, beside a rail carrying the direct address as a draft prefilled from what has been typed, the social profiles as marks only, and three lines on what makes a message fixable.
 - The newsletter signup in the footer takes an email and an optional name. Subscribers land in the same chat as the contact messages.
 - Pageviews, sessions, countries, referrers and device classes, readable back as JSON from `/api/stats`.
 
@@ -192,6 +192,7 @@ Tokens live in `src/index.css` and are exposed to Tailwind through `@theme inlin
 - `animate-rise` staggers the cards in and `animate-pop` handles the location dialog and the snackbar.
 - The spotlight card and the contact panel share one dark surface, `bg-ink-soft` with white text, warmed by a radial amber wash off the top edge. The card holds one headline and two rows and stops there: an earlier version carried a "Best time" label, a second headline line about golden hour and a tip paragraph, and all three restated something already on the page. Inside the rows the labels recede to 50 percent white and the readings carry the weight. The newsletter band under them is light: `bg-card-soft`, two pale `--primary` washes in the corners, the lower one edged by a hairline curve drawn in one inline SVG, and the signup fields lifted into a white card on top of it.
 - A form's result floats in a snackbar fixed to the bottom of the viewport instead of pushing layout around inside the footer. `src/lib/snackbar.ts` keeps one message at a time (4.5 s for a success, 8 s for a failure that carries a link to act on), and the pill is `role="status"` or `role="alert"` so a screen reader hears which is which. A rejected email leaves nothing behind but `aria-invalid` on the field it belongs to.
+- UI glyphs are drawn by hand in `src/components/icons.tsx` on a 24 px grid with a 1.6 stroke. The four brand marks on `/contact` are the exception: official paths, filled and set to `currentColor`, because each network's own blue and black would fight the theme and a hand-simplified cat silhouette is worse than no cat.
 
 ## Responsive behaviour
 
@@ -199,6 +200,7 @@ Tokens live in `src/index.css` and are exposed to Tailwind through `@theme inlin
 - At `md` the hero and strip stay full width while the week list and the right rail split into two columns. The rail stacks the spotlight card over the metrics panel, and each of them keeps the height its own content asks for.
 - At `xl` the grid is 12 columns, 7 for the week list and 5 for the rail. Wind, humidity and UV share one panel instead of three separate cards, so the rail reads as two blocks rather than four.
 - The footer is two sections, contact and newsletter, stacked one under the other at every width and each full width of the page. Inside the newsletter band the copy and the form card sit one after the other until `xl`, where they split into a left column and a fixed 400 px column on the right. The card stops at 400 px rather than spanning the band, and the name field, the email field and the Subscribe button run down that width, so the button matches the fields above it. Sections keep their natural height, and every field can give way before its container does, so nothing pushes the page sideways at 320 px.
+- `/contact` is one column until `lg`, where the form takes 7 of the 12 columns and the rail 5. Name and email share a row from `sm`, and the message, the chips and the button stay full width, since those are the parts that read badly when halved. The rail is `sticky` inside a `self-start` column: its two cards end level with the form card at rest, and a message box dragged taller scrolls past them while the rail holds 24 px under the top edge, then lets go at the bottom of the column and the rest of the page moves with it. `my-auto` centres the pair on a tall screen without ever clipping the top of the form.
 
 ## Deployment
 
@@ -232,7 +234,7 @@ Everything a crawler or a social embed reads is static in `index.html`:
 
 - Title, description, canonical (`https://weather.devfazla.com/`) and a `robots` meta that allows large image previews.
 - Open Graph and Twitter tags pointing at `public/og.jpg`, a 1200×630 capture of the real card with the brand line baked in.
-- A JSON-LD `@graph` describing the `Organization` (devFazla), the `WebSite`, and the app itself as a free `WebApplication`.
+- A JSON-LD `@graph` describing the `Organization` (devFazla, with `sameAs` for the four social profiles), the `WebSite`, and the app itself as a free `WebApplication`.
 - `<noscript>` copy, so the page still says what it is without JavaScript.
 - One `<h1>`: the visually hidden `{city} weather` in the header, followed by the card `<h2>`s.
 - `public/robots.txt`, which allows the site and keeps `/api/` out of the crawl, and `public/sitemap.xml` for the two indexable URLs.
