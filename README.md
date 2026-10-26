@@ -71,6 +71,7 @@ src/
 ├── main.tsx                 # BrowserRouter, routes, scroll reset, pageview + error hooks
 ├── App.tsx                  # Dashboard layout, unit + theme state, dialog wiring
 ├── pages/ContactPage.tsx    # /contact, its own head tags and schema
+├── pages/NotFoundPage.tsx   # every other path, noindex and a link home
 ├── components/              # Presentational: Header, HeroCard, HourlyStrip,
 │                            # WeekForecast, HighlightsCard,
 │                            # MetricCard, LocationDialog, Footer, Snackbar, icons
@@ -236,6 +237,7 @@ Everything a crawler or a social embed reads is static in `index.html`:
 - One `<h1>`: the visually hidden `{city} weather` in the header, followed by the card `<h2>`s.
 - `public/robots.txt`, which allows the site and keeps `/api/` out of the crawl, and `public/sitemap.xml` for the two indexable URLs.
 - `public/404.html`, a standalone page with no bundle behind it, so an unmatched path gets a branded answer instead of the platform default. It carries `noindex, follow`.
+- `src/pages/NotFoundPage.tsx` on the `*` route says the same thing inside the app, for a bad path that reaches the bundle rather than the edge. `usePageMeta` swaps the `robots` tag to `noindex, follow` while it is up and puts the original back on the way out.
 - Preconnects to the forecast and font hosts, and `fetchpriority="high"` on the hero photo, which is the LCP element.
 - Two `theme-color` tags, one per scheme, matching `--background` in each mode.
 

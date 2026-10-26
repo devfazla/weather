@@ -6,6 +6,8 @@ type PageMeta = {
   title: string;
   description: string;
   canonical: string;
+  /** Overrides the indexing permission in index.html for as long as the route is up. */
+  robots?: string;
   /** Extra structured data for the route, dropped again when it unmounts. */
   schema?: object;
 };
@@ -27,21 +29,31 @@ function setMeta(name: string, content: string): void {
  * is the crawlable default for the dashboard; this keeps the title, description
  * and canonical honest for every other route.
  */
-export function usePageMeta({ title, description, canonical, schema }: PageMeta): void {
+export function usePageMeta({ title, description, canonical, robots, schema }: PageMeta): void {
   useEffect(() => {
     document.title = title;
     setMeta("description", description);
     document.head.querySelector('link[rel="canonical"]')?.setAttribute("href", canonical);
 
-    if (!schema) return;
+    // index.html says a crawler may index. A route that disagrees swaps the
+    // value while it is up and hands the original back on the way out.
+    const robotsTag = document.head.querySelector<HTMLMetaElement>('meta[name="robots"]');
+    const robotsWas = robotsTag?.content;
+    if (robotsTag && robots) robotsTag.content = robots;
 
-    const tag = document.createElement("script");
-    tag.type = "application/ld+json";
-    tag.textContent = JSON.stringify(schema);
-    document.head.append(tag);
+    let schemaTag: HTMLScriptElement | undefined;
+    if (schema) {
+      schemaTag = document.createElement("script");
+      schemaTag.type = "application/ld+json";
+      schemaTag.textContent = JSON.stringify(schema);
+      document.head.append(schemaTag);
+    }
 
-    return () => tag.remove();
-  }, [title, description, canonical, schema]);
+    return () => {
+      schemaTag?.remove();
+      if (robotsTag && robotsWas) robotsTag.content = robotsWas;
+    };
+  }, [title, description, canonical, robots, schema]);
 }
 
 /**

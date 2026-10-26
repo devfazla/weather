@@ -1,8 +1,9 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import App from "./App.tsx";
 import ContactPage from "./pages/ContactPage.tsx";
+import NotFoundPage from "./pages/NotFoundPage.tsx";
 import ScrollToTop from "./components/ScrollToTop.tsx";
 import Snackbar from "./components/Snackbar.tsx";
 import TrackPageviews from "./components/TrackPageviews.tsx";
@@ -20,7 +21,7 @@ createRoot(document.getElementById("root")!).render(
       <Routes>
         <Route path="/" element={<App />} />
         <Route path="/contact" element={<ContactPage />} />
-        <Route path="*" element={<Navigate to="/" replace />} />
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </BrowserRouter>
   </StrictMode>
