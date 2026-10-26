@@ -11,7 +11,7 @@ import {
   type ApiRequest,
   type ApiResponse,
   type GeoHint,
-} from "./_shared";
+} from "./_shared.js";
 
 type Body = {
   message?: string;

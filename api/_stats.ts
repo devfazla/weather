@@ -1,4 +1,4 @@
-import { countryName, esc, TelegramError, telegramCall } from "./_shared";
+import { countryName, esc, TelegramError, telegramCall } from "./_shared.js";
 
 /**
  * Telegram is the database: one pinned message holds the counters as JSON

@@ -8,8 +8,8 @@ import {
   type ApiRequest,
   type ApiResponse,
   type GeoHint,
-} from "./_shared";
-import { bump, CAPS, record } from "./_stats";
+} from "./_shared.js";
+import { bump, CAPS, record } from "./_stats.js";
 
 type Body = {
   path?: string;

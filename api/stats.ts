@@ -1,5 +1,5 @@
-import { analyticsInbox, countryName, reply, statsToken, type ApiRequest, type ApiResponse } from "./_shared";
-import { readDoc, top } from "./_stats";
+import { analyticsInbox, countryName, reply, statsToken, type ApiRequest, type ApiResponse } from "./_shared.js";
+import { readDoc, top } from "./_stats.js";
 
 /**
  * Reading the numbers back out. Guarded by STATS_TOKEN because the counters

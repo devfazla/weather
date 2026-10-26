@@ -5,6 +5,12 @@ import type { IncomingMessage, ServerResponse } from "node:http";
  * Shared plumbing for the Vercel functions in /api. Telegram is the only
  * store: submissions go straight to a chat, and the analytics counters live
  * in a pinned message that each visit rewrites.
+ *
+ * Every relative import in this folder names the compiled file, "./_stats.js"
+ * from a .ts source. Vite bundles the frontend and takes either form, but each
+ * file here runs as plain Node ESM on Vercel, and that loader will not guess an
+ * extension: without it every function dies on boot with ERR_MODULE_NOT_FOUND
+ * while the local build stays green.
  */
 
 export type ApiRequest = IncomingMessage & { body?: unknown };
