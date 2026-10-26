@@ -20,6 +20,20 @@ export type StatsDoc = {
 
 const BLOCK = /<pre>([\s\S]*?)<\/pre>/;
 
+/**
+ * Telegram keeps the JSON but not the markup: parse_mode HTML turns <pre> into a
+ * message entity, so the stored text has no literal tags to match. Read the
+ * object by its braces, which still covers the wrapped form the local mock hands
+ * back.
+ */
+function jsonOf(text: string): string {
+  const body = BLOCK.exec(text)?.[1] ?? text;
+  const start = body.indexOf("{");
+  const end = body.lastIndexOf("}");
+
+  return start === -1 || end <= start ? "" : body.slice(start, end + 1);
+}
+
 /** Keeps the document inside Telegram's 4096 character message limit. */
 export const CAPS = { countries: 60, paths: 25, sources: 15, devices: 4 };
 
@@ -58,19 +72,26 @@ export const top = (map: Record<string, number>, count: number): [string, number
 export async function readDoc(chatId: string): Promise<{ doc: StatsDoc; messageId: number | null }> {
   const chat = await telegramCall<Chat>("getChat", { chat_id: chatId });
   const pinned = chat.pinned_message;
-  const raw = pinned?.text ? (BLOCK.exec(pinned.text)?.[1] ?? "") : "";
+  const raw = pinned?.text ? jsonOf(pinned.text) : "";
 
   let doc = emptyDoc();
+  // The pin is only claimed once it reads as our document, so an unrelated
+  // pinned message is left alone instead of being overwritten.
+  let messageId: number | null = null;
+
   if (raw) {
     try {
       const parsed = JSON.parse(raw) as StatsDoc;
-      if (parsed.v === 1) doc = { ...emptyDoc(), ...parsed };
+      if (parsed.v === 1) {
+        doc = { ...emptyDoc(), ...parsed };
+        messageId = pinned?.message_id ?? null;
+      }
     } catch {
       // A hand-edited or truncated document starts over rather than 500ing.
     }
   }
 
-  return { doc, messageId: pinned?.message_id ?? null };
+  return { doc, messageId };
 }
 
 function render(doc: StatsDoc): string {
