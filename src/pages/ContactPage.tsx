@@ -1,5 +1,6 @@
 import { useRef, useState, type FormEvent } from "react";
 import { Link } from "react-router-dom";
+import { contactMeta } from "../data/contactMeta";
 import { sendContact } from "../lib/api";
 import { CONTACT_EMAIL, isEmail, mailtoLink } from "../lib/contact";
 import { show } from "../lib/snackbar";
@@ -25,10 +26,7 @@ import {
 type Errors = { email?: string; message?: string };
 
 const META = {
-  title: "Contact — weather by devFazla",
-  description:
-    "Report a wrong city, suggest a feature or flag a bug. Messages go straight to the devFazla inbox, and the reply comes back to your address.",
-  canonical: "https://weather.devfazla.com/contact",
+  ...contactMeta,
   schema: {
     "@context": "https://schema.org",
     "@graph": [

@@ -5,14 +5,7 @@
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
   "cleanUrls": true,
-  "rewrites": {
-    "beforeFiles": [{ "source": "/contact", "destination": "/index.html" }]
-  },
   "headers": [
-    {
-      "source": "/contact",
-      "headers": [{ "key": "X-Route-Probe", "value": "beforefiles-1" }]
-    },
     {
       "source": "/assets/(.*)",
       "headers": [
