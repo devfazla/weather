@@ -108,7 +108,7 @@ export function wmoToKind(code: number, isDay = 1): WeatherKind {
   return meta.kind;
 }
 
-/** US AQI bucket — matches the "Good 28" copy in the design. */
+/** US AQI bucket, matching the "Good 28" copy in the design. */
 export function aqiLabel(aqi: number): string {
   if (aqi <= 50) return "Good";
   if (aqi <= 100) return "Moderate";
@@ -150,7 +150,7 @@ function airQualityUrl({ lat, lon }: Place): string {
 
 /**
  * Forecast + air quality in one round trip. Air quality is best-effort: the
- * metric card and spotlight meta simply drop the number if it fails.
+ * metric card and the spotlight stat simply drop the number if it fails.
  */
 export async function fetchWeather(place: Place, signal?: AbortSignal): Promise<Weather> {
   const [forecast, air] = await Promise.all([
@@ -245,8 +245,6 @@ function buildWeather(place: Place, forecast: ForecastResponse, aqi: number | nu
         ? `Blue skies all ${dayPart}.`
         : `Soft clouds this ${dayPart}.`;
 
-  const sunsetHour = Number(daily.sunset[0].slice(11, 13)) % 12 || 12;
-
   const photo = isSnow(code)
     ? { title: "Bundle up out there", note: `Snow · UV ${uvName}` }
     : isWet(code)
@@ -254,18 +252,6 @@ function buildWeather(place: Place, forecast: ForecastResponse, aqi: number | nu
       : Math.round(daily.temperature_2m_max[0]) >= 28
         ? { title: "Shade is your friend", note: `UV ${uvName} · ${airNote}` }
         : { title: "Perfect outside", note: `UV ${uvName} · ${airNote}` };
-
-  const todayWind = Math.round(daily.wind_speed_10m_max[0]);
-  const todayHigh = Math.round(daily.temperature_2m_max[0]);
-
-  const tip =
-    wetOffset >= 0
-      ? `Showers after ${hourLabel(hourly.time[at(startIndex + wetOffset)])} — keep a layer handy.`
-      : todayWind >= 25
-        ? `Gusts up to ${todayWind} km/h — hold onto your hat.`
-        : todayHigh >= 28
-          ? `Warm through the ${dayPart} — hydrate often.`
-          : `Calm ${dayPart} ahead — perfect for a walk.`;
 
   const metrics: Metric[] = [
     { key: "wind", value: `${Math.round(current.wind_speed_10m)} km/h`, label: "Wind" },
@@ -297,11 +283,14 @@ function buildWeather(place: Place, forecast: ForecastResponse, aqi: number | nu
     hourly: hourlyPoints,
     week,
     spotlight: {
-      headline: [headline, `Golden hour at ${sunsetHour}.`],
-      meta: airLabel ? `Air quality · ${airLabel}` : "Air quality · unavailable",
-      action: "Best time",
+      // One line. The sunset time and the air index are the rows underneath,
+      // so the headline doesn't restate them.
+      headline,
+      stats: [
+        { icon: "air", label: "Air quality", value: airLabel ?? "Unavailable" },
+        { icon: "sunset", label: "Sunset", value: clockLabel(daily.sunset[0]) },
+      ],
     },
-    tip,
     metrics,
     updated: `Updated ${clockLabel(current.time)}`,
     source: "live",

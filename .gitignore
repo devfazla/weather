@@ -3,5 +3,9 @@ dist
 .shots
 .herobuild
 *.local
+.env
+.env.*
+!.env.example
 .DS_Store
 .vite
+.vercel

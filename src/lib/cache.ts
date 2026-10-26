@@ -25,7 +25,7 @@ function writeEntry<T>(url: string, value: T): void {
   try {
     window.localStorage.setItem(PREFIX + url, JSON.stringify({ savedAt: Date.now(), value }));
   } catch {
-    // Private mode or a full quota — caching is optional, keep going.
+    // Private mode or a full quota. Caching is optional, so keep going.
   }
 }
 

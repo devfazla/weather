@@ -25,10 +25,17 @@ export type Metric = {
 
 export type Place = {
   name: string;
-  /** "California, United States" — shown next to the name in the search list */
+  /** "California, United States", shown next to the name in the search list */
   region: string;
   lat: number;
   lon: number;
+};
+
+/** One labelled number in the spotlight card, air quality or sunset. */
+export type SpotlightStat = {
+  icon: "air" | "sunset";
+  label: string;
+  value: string;
 };
 
 export type Weather = {
@@ -47,8 +54,7 @@ export type Weather = {
   hero: HeroScene;
   hourly: HourPoint[];
   week: DayPoint[];
-  spotlight: { headline: string[]; meta: string; action: string };
-  tip: string;
+  spotlight: { headline: string; stats: SpotlightStat[] };
   metrics: Metric[];
   updated: string;
   source: "live" | "sample";
@@ -63,7 +69,7 @@ export const defaultPlace: Place = {
 
 /**
  * Paints the dashboard before the first Open-Meteo response lands, and stays on
- * screen if every request fails — the layout never collapses to a skeleton.
+ * screen if every request fails, so the layout never collapses to a skeleton.
  */
 export const fallbackWeather: Weather = {
   city: defaultPlace.name,
@@ -101,11 +107,12 @@ export const fallbackWeather: Weather = {
     { label: "Sun", low: 17, high: 27, kind: "sun", pct: 95 },
   ],
   spotlight: {
-    headline: ["Blue skies all morning.", "Golden hour at 7."],
-    meta: "Air quality · Good 28",
-    action: "Best time",
+    headline: "Blue skies all morning.",
+    stats: [
+      { icon: "air", label: "Air quality", value: "Good 28" },
+      { icon: "sunset", label: "Sunset", value: "7:52 PM" },
+    ],
   },
-  tip: "Ocean breeze after 3 PM — perfect for a walk.",
   metrics: [
     { key: "wind", value: "9 km/h", label: "Wind" },
     { key: "humidity", value: "42%", label: "Humidity" },

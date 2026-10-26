@@ -180,14 +180,6 @@
     );
   }
 
-  .no-scrollbar {
-    scrollbar-width: none;
-  }
-
-  .no-scrollbar::-webkit-scrollbar {
-    display: none;
-  }
-
   .thin-scroll {
     scrollbar-width: thin;
     scrollbar-color: var(--muted) transparent;

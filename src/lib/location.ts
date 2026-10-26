@@ -17,7 +17,7 @@ function writeJson(key: string, value: unknown): void {
   try {
     window.localStorage.setItem(key, JSON.stringify(value));
   } catch {
-    // Storage disabled or full — the dashboard still works, it just forgets.
+    // Storage disabled or full. The dashboard still works, it just forgets.
   }
 }
 
@@ -69,11 +69,14 @@ function number(record: Record<string, unknown>, key: string): number {
 type IpProvider = {
   url: string;
   parse: (data: Record<string, unknown>) => Place | null;
+  /** ISO country code, for the submission metadata. */
+  code: (data: Record<string, unknown>) => string;
 };
 
 const IP_PROVIDERS: IpProvider[] = [
   {
     url: "https://ipwho.is/",
+    code: (data) => text(data, "country_code"),
     parse: (data) =>
       data.success === false
         ? null
@@ -81,6 +84,7 @@ const IP_PROVIDERS: IpProvider[] = [
   },
   {
     url: "https://get.geojs.io/v1/ip/geo.json",
+    code: (data) => text(data, "country_code"),
     parse: (data) =>
       toPlace(text(data, "city"), [text(data, "region"), text(data, "country")], number(data, "latitude"), number(data, "longitude")),
   },
@@ -109,17 +113,40 @@ export async function detectPlaceByIp(): Promise<Place | null> {
       const response = await fetch(provider.url, { headers: { Accept: "application/json" } });
       if (!response.ok) continue;
 
-      const place = provider.parse((await response.json()) as Record<string, unknown>);
+      const data = (await response.json()) as Record<string, unknown>;
+      const place = provider.parse(data);
       if (place) {
-        writeJson(IP_KEY, { savedAt: Date.now(), place });
+        writeJson(IP_KEY, { savedAt: Date.now(), place, code: provider.code(data) });
         return place;
       }
     } catch {
-      // Try the next provider — IP lookups are best-effort.
+      // Try the next provider. IP lookups are best-effort.
     }
   }
 
   return null;
+}
+
+/** Coarse location the server would otherwise read off platform headers. */
+export type GeoHint = { city: string; region: string; country: string };
+
+/**
+ * The visitor's own rough location, as the IP lookup left it. Deliberately not
+ * the city on screen, since that one may be somewhere they searched for. Never hits
+ * the network, and a day-old entry is still a better guess than "unknown".
+ */
+export function readGeoHint(): GeoHint | null {
+  const cached = readJson(IP_KEY);
+  if (!cached || typeof cached !== "object") return null;
+
+  const entry = cached as { place?: unknown; code?: unknown };
+  if (!isPlace(entry.place)) return null;
+
+  return {
+    city: entry.place.name,
+    region: entry.place.region,
+    country: typeof entry.code === "string" ? entry.code : "",
+  };
 }
 
 /** Coordinates -> nearest city name, for the "My location" flow. */

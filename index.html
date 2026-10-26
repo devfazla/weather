@@ -2,19 +2,125 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#e9f0f5" />
-    <title>San Francisco — Weather</title>
+
+    <title>Live weather — hourly &amp; 7-day forecast · devFazla</title>
+    <meta
+      name="description"
+      content="Live weather for any city: current conditions, hourly temperatures, 7-day outlook, UV index and air quality. Free, no sign-up, updated every 10 minutes."
+    />
+    <link rel="canonical" href="https://weather.devfazla.com/" />
+    <meta
+      name="robots"
+      content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+    />
+    <meta name="author" content="devFazla" />
+    <meta name="application-name" content="Weather" />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#eaf3f6" />
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0b161c" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Weather by devFazla" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:url" content="https://weather.devfazla.com/" />
+    <meta property="og:title" content="Live weather — hourly &amp; 7-day forecast" />
+    <meta
+      property="og:description"
+      content="Current conditions, hourly temperatures, a 7-day outlook, UV and air quality for any city. No sign-up, and the numbers refresh every 10 minutes."
+    />
+    <meta property="og:image" content="https://weather.devfazla.com/og.jpg" />
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta
+      property="og:image:alt"
+      content="The weather dashboard showing 32° in Sunamganj beside a desert hero photo"
+    />
+
+    <!-- Twitter / X -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Live weather — hourly &amp; 7-day forecast" />
+    <meta
+      name="twitter:description"
+      content="Current conditions, hourly temperatures, a 7-day outlook, UV and air quality for any city. No sign-up, and the numbers refresh every 10 minutes."
+    />
+    <meta name="twitter:image" content="https://weather.devfazla.com/og.jpg" />
+    <meta
+      name="twitter:image:alt"
+      content="The weather dashboard showing 32° in Sunamganj beside a desert hero photo"
+    />
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://api.open-meteo.com" />
+    <link rel="dns-prefetch" href="//air-quality-api.open-meteo.com" />
+    <link rel="dns-prefetch" href="//geocoding-api.open-meteo.com" />
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Nunito:wght@600;700;800&display=swap"
       rel="stylesheet"
     />
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "Organization",
+            "@id": "https://weather.devfazla.com/#publisher",
+            "name": "devFazla",
+            "url": "https://devfazla.com/"
+          },
+          {
+            "@type": "WebSite",
+            "@id": "https://weather.devfazla.com/#website",
+            "url": "https://weather.devfazla.com/",
+            "name": "Weather by devFazla",
+            "description": "Live weather for any city: current conditions, hourly temperatures, 7-day outlook, UV index and air quality.",
+            "inLanguage": "en",
+            "publisher": { "@id": "https://weather.devfazla.com/#publisher" }
+          },
+          {
+            "@type": "WebApplication",
+            "@id": "https://weather.devfazla.com/#app",
+            "name": "Weather by devFazla",
+            "url": "https://weather.devfazla.com/",
+            "description": "A single-page weather dashboard with live conditions, an hourly strip, a 7-day outlook, UV index, air quality and a hero photo that matches the sky outside.",
+            "applicationCategory": "WeatherApplication",
+            "operatingSystem": "Any",
+            "browserRequirements": "Requires JavaScript",
+            "isAccessibleForFree": true,
+            "inLanguage": "en",
+            "image": "https://weather.devfazla.com/og.jpg",
+            "publisher": { "@id": "https://weather.devfazla.com/#publisher" },
+            "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+            "featureList": [
+              "Current conditions for any city",
+              "Hourly temperature strip",
+              "7-day outlook",
+              "UV index and air quality",
+              "Automatic location detection"
+            ]
+          }
+        ]
+      }
+    </script>
   </head>
   <body>
     <div id="root"></div>
+    <noscript>
+      <h1>Live weather, hourly forecast and a 7-day outlook</h1>
+      <p>
+        This dashboard reads live conditions from Open-Meteo in your browser. Turn on JavaScript to
+        see the current temperature, the next eight hours, the week ahead, UV index and air quality
+        for your city.
+      </p>
+      <p>Built by <a href="https://devfazla.com/">devFazla</a>.</p>
+    </noscript>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

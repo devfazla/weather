@@ -106,6 +106,24 @@ export function IconClose({ className = "size-5", ...rest }: IconProps) {
   );
 }
 
+export function IconCheck({ className = "size-5", ...rest }: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} aria-hidden {...line} {...rest}>
+      <circle cx="12" cy="12" r="8.8" />
+      <path d="m8.1 12.3 2.7 2.7 5.1-5.5" />
+    </svg>
+  );
+}
+
+export function IconAlert({ className = "size-5", ...rest }: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} aria-hidden {...line} {...rest}>
+      <circle cx="12" cy="12" r="8.8" />
+      <path d="M12 7.7v5.1M12 16.2h.01" />
+    </svg>
+  );
+}
+
 export function IconLocate({ className = "size-5", ...rest }: IconProps) {
   return (
     <svg viewBox="0 0 24 24" className={className} aria-hidden {...line} {...rest}>
@@ -130,6 +148,68 @@ export function IconHumidity({ className = "size-5", ...rest }: IconProps) {
   return (
     <svg viewBox="0 0 24 24" className={className} aria-hidden {...line} {...rest}>
       <path d="M12 3.4c2.6 3.3 5.4 6.2 5.4 9.4a5.4 5.4 0 0 1-10.8 0c0-3.2 2.8-6.1 5.4-9.4Z" />
+    </svg>
+  );
+}
+
+export function IconMail({ className = "size-5", ...rest }: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} aria-hidden {...line} {...rest}>
+      <rect x="3" y="5.4" width="18" height="13.2" rx="3" />
+      <path d="m4.4 7.6 6.6 4.9a1.8 1.8 0 0 0 2 0l6.6-4.9" />
+    </svg>
+  );
+}
+
+export function IconUser({ className = "size-5", ...rest }: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} aria-hidden {...line} {...rest}>
+      <circle cx="12" cy="8.6" r="3.5" />
+      <path d="M5.6 19.6a6.7 6.7 0 0 1 12.8 0" />
+    </svg>
+  );
+}
+
+export function IconSend({ className = "size-5", ...rest }: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} aria-hidden {...line} {...rest}>
+      <path d="M20.6 3.4 3.7 9.9a.5.5 0 0 0-.05.92l6.3 3.2 3.2 6.3a.5.5 0 0 0 .92-.05Z" />
+      <path d="m9.95 14.05 5.1-5.1" />
+    </svg>
+  );
+}
+
+export function IconChevronRight({ className = "size-5", ...rest }: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} aria-hidden {...line} {...rest}>
+      <path d="m9.6 6.6 5.4 5.4-5.4 5.4" />
+    </svg>
+  );
+}
+
+export function IconChat({ className = "size-5", ...rest }: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} aria-hidden {...line} {...rest}>
+      <path d="M20.5 11.9c0 3.8-3.8 6.9-8.5 6.9-.9 0-1.8-.12-2.6-.34L4.6 20l1.3-3.7a6.5 6.5 0 0 1-2.4-4.4C3.5 8.1 7.3 5 12 5s8.5 3.1 8.5 6.9Z" />
+      <path d="M8.9 11.9h.01M12 11.9h.01M15.1 11.9h.01" strokeWidth={2.4} />
+    </svg>
+  );
+}
+
+export function IconCalendar({ className = "size-5", ...rest }: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} aria-hidden {...line} {...rest}>
+      <rect x="3.4" y="5.2" width="17.2" height="15.4" rx="3" />
+      <path d="M3.4 10h17.2M8.2 3.4v3.6M15.8 3.4v3.6" />
+      <path d="M7.8 14.2h.01M12 14.2h.01M16.2 14.2h.01M7.8 17.4h.01M12 17.4h.01" strokeWidth={2.2} />
+    </svg>
+  );
+}
+
+export function IconArrowLeft({ className = "size-5", ...rest }: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} aria-hidden {...line} {...rest}>
+      <path d="M19.4 12H4.6m5.6-6.4L3.8 12l6.4 6.4" />
     </svg>
   );
 }

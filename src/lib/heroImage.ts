@@ -4,7 +4,7 @@
  */
 export type HeroScene = {
   src: string;
-  /** What the photo shows — the only thing a screen reader gets. */
+  /** What the photo shows. The only thing a screen reader gets. */
   alt: string;
   /** Attribution, set only for the CC BY / CC BY-SA files. */
   credit: string | null;

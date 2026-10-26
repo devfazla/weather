@@ -13,20 +13,17 @@ type Props = {
   label: string;
 };
 
+/** One line inside the metrics panel, so the three readings share one surface. */
 export default function MetricCard({ metricKey, value, label }: Props) {
   const Glyph = icons[metricKey] ?? IconSunLine;
 
   return (
-    <div className="flex items-center gap-4 rounded-lg bg-card px-6 py-[19px] shadow-card">
-      <span className="grid size-11 shrink-0 place-items-center rounded-full bg-secondary text-secondary-foreground">
-        <Glyph className="size-[19px]" />
+    <div className="flex items-center gap-3 px-5 py-4">
+      <span className="grid size-9 shrink-0 place-items-center rounded-sm bg-secondary text-secondary-foreground">
+        <Glyph className="size-[17px]" />
       </span>
-      <div className="min-w-0">
-        <p className="truncate font-heading text-[16px] font-bold leading-tight text-foreground">
-          {value}
-        </p>
-        <p className="mt-[4px] text-[12px] text-muted-foreground">{label}</p>
-      </div>
+      <p className="min-w-0 flex-1 truncate text-[13px] font-medium text-muted-foreground">{label}</p>
+      <p className="shrink-0 font-heading text-[15px] font-bold tabular-nums text-foreground">{value}</p>
     </div>
   );
 }
