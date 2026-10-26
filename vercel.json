@@ -5,7 +5,9 @@
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
   "cleanUrls": true,
-  "rewrites": [{ "source": "/contact", "destination": "/index.html" }],
+  "rewrites": {
+    "beforeFiles": [{ "source": "/contact", "destination": "/index.html" }]
+  },
   "headers": [
     {
       "source": "/assets/(.*)",

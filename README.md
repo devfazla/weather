@@ -220,7 +220,7 @@ The repo ships with `vercel.json`, so importing it at <https://vercel.com/new> n
 4. Under **Settings → Domains**, add `weather.devfazla.com` and create the DNS record Vercel asks for.
 5. Pushes to `main` deploy to production; pull requests get preview URLs.
 
-`/contact` is a client-side route, so `vercel.json` rewrites it to `index.html`. A hard refresh gets no 404, and `cleanUrls` keeps the URLs extensionless. Nothing rewrites unknown paths to the app on purpose: a garbage URL should answer 404 rather than serve the dashboard with a 200, which is what a soft 404 looks like to a crawler.
+`/contact` is a client-side route, so `vercel.json` rewrites it to `index.html`, and `cleanUrls` keeps the URLs extensionless. That rewrite has to sit in `beforeFiles`. `public/404.html` is a real file in the build output, and Vercel answers an unmatched path with it before ordinary fallback rewrites are tried, so a rewrite written as `"rewrites": [{ ... }]` loses to the 404 page and a hard load of `/contact` returns 404 while every in-app link looks fine. Nothing rewrites unknown paths on purpose: a garbage URL should answer 404 rather than serve the dashboard with a 200, which is what a soft 404 looks like to a crawler.
 
 `vercel.json` also sets the response headers:
 
