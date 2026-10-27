@@ -169,6 +169,12 @@ Ada Lovelace · ada@example.com
 curl -H "Authorization: Bearer $STATS_TOKEN" https://weather.devfazla.com/api/stats
 ```
 
+### Vercel's dashboard, running alongside
+
+The pinned message stays the source of truth. `@vercel/analytics` is mounted in `main.tsx` as well so the Vercel panel has something to draw, which is the only way that dashboard fills: it counts events from its own script, not from `/api/track`. It renders only when the hostname is not a dev host, because off Vercel the package reaches for a debug script on `va.vercel-scripts.com` and the page's `script-src 'self'` would refuse it. On the deployment it loads `/_vercel/insights/script.js` from the same origin and posts its events to the same origin, so no `connect-src` entry had to move.
+
+That script is a separate collector with its own rules. The opt-out in `src/lib/analytics.ts` (Do Not Track, Global Privacy Control, `?noanalytics`) governs the beacon this project writes, and nothing here claims to silence Vercel's.
+
 ### Caching
 
 `cachedJson` wraps `localStorage` with per-product TTLs and a shared `Map` of in-flight requests:
