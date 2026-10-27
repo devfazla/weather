@@ -277,7 +277,16 @@ export type ClientInfo = {
  */
 export type GeoHint = { city?: string; region?: string; country?: string };
 
-export function clientInfo(req: IncomingMessage, hint: GeoHint = {}): ClientInfo {
+/**
+ * A hint arrives as `null` from a visitor whose own IP lookup has not finished,
+ * which is the first pageview of every session, so the empty object is applied
+ * here rather than trusted to the caller.
+ */
+export function clientInfo(
+  req: IncomingMessage,
+  hint: GeoHint | null | undefined = {},
+): ClientInfo {
+  const place = hint ?? {};
   const header = (name: string) => {
     const value = req.headers[name];
     return (Array.isArray(value) ? value[0] : value) ?? "";
@@ -296,7 +305,7 @@ export function clientInfo(req: IncomingMessage, hint: GeoHint = {}): ClientInfo
 
   // A two-letter hint is an ISO code, a longer one is a country name. Anything
   // that is not two letters would make a nonsense code out of "Bangladesh".
-  const named = text(hint.country ?? "", 40);
+  const named = text(place.country ?? "", 40);
   const code =
     header("x-vercel-ip-country").toUpperCase().slice(0, 2) ||
     (/^[A-Z]{2}$/.test(named) ? named : "");
@@ -308,8 +317,8 @@ export function clientInfo(req: IncomingMessage, hint: GeoHint = {}): ClientInfo
     ipHash: createHash("sha256").update(`${ip}:${hashSalt()}`).digest("hex").slice(0, 12),
     country: code,
     countryName: code ? countryName(code) : named.length > 2 ? named : "",
-    region: fromHeader("x-vercel-ip-country-region") || text(hint.region ?? "", 40),
-    city: fromHeader("x-vercel-ip-city") || text(hint.city ?? "", 40),
+    region: fromHeader("x-vercel-ip-country-region") || text(place.region ?? "", 40),
+    city: fromHeader("x-vercel-ip-city") || text(place.city ?? "", 40),
     device: /bot|crawler|spider|crawl|slurp|curl|wget|headless/i.test(ua)
       ? "bot"
       : /ipad|tablet|playbook|silk/i.test(ua)

@@ -46,7 +46,10 @@ export function reportClientError(input: {
 
 /** Fire and forget: the page should never wait on a pageview. */
 export function sendPageview(input: Record<string, unknown>): void {
-  const body = { ...input, geo: readGeoHint() };
+  // No lookup yet means no hint, so the key is left out rather than sent as
+  // null for the function to trip over.
+  const hint = readGeoHint();
+  const body = { ...input, ...(hint ? { geo: hint } : {}) };
   const payload = JSON.stringify(body);
 
   if (navigator.sendBeacon?.("/api/track", new Blob([payload], { type: "application/json" }))) {
