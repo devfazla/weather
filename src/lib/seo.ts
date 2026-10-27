@@ -65,7 +65,7 @@ export function useDocumentMeta(weather: Weather): void {
   const { city, condition, temp, source } = weather;
 
   useEffect(() => {
-    document.title = `${city} weather — live conditions & 7-day forecast`;
+    document.title = `${city} weather, live conditions & 7-day forecast`;
     if (source !== "live") return;
 
     setMeta(

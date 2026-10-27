@@ -34,7 +34,7 @@ const META = {
         "@type": "ContactPage",
         "@id": "https://weather.devfazla.com/contact#page",
         url: "https://weather.devfazla.com/contact",
-        name: "Contact — weather by devFazla",
+        name: "Contact · weather by devFazla",
         description:
           "Report a wrong city, suggest a feature or flag a bug in the weather dashboard.",
         inLanguage: "en",

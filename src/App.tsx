@@ -13,7 +13,7 @@ import Footer from "./components/Footer";
 import LocationDialog from "./components/LocationDialog";
 
 const HOME_META = {
-  title: "Live weather — hourly & 7-day forecast · devFazla",
+  title: "Live weather, hourly & 7-day forecast · devFazla",
   description:
     "Live weather for any city: current conditions, hourly temperatures, 7-day outlook, UV index and air quality. Free, no sign-up, updated every 10 minutes.",
   canonical: "https://weather.devfazla.com/",

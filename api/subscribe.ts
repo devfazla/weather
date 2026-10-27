@@ -34,11 +34,11 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
     return reply(res, 429, { error: "One signup at a time, please" });
   }
 
-  const draft = mailto(email, "devFazla weather — newsletter");
+  const draft = mailto(email, "devFazla weather newsletter");
   const address = `<a href="${esc(draft)}">${esc(email)}</a>`;
 
   const lines = [
-    "📬 <b>Newsletter</b> — new subscriber",
+    "📬 <b>Newsletter</b> · new subscriber",
     "",
     // Tapping the address opens a prefilled draft; buttons take HTTPS only.
     name ? `<b>${esc(name)}</b> · ${address}` : address,

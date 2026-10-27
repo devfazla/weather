@@ -5,7 +5,7 @@
  * ends up with say the same thing.
  */
 export const contactMeta = {
-  title: "Contact — weather by devFazla",
+  title: "Contact · weather by devFazla",
   description:
     "Report a wrong city, suggest a feature or flag a bug. Messages go straight to the devFazla inbox, and the reply comes back to your address.",
   canonical: "https://weather.devfazla.com/contact",

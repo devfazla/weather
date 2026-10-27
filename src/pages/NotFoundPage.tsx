@@ -9,7 +9,7 @@ import { usePageMeta } from "../lib/seo";
  * like a different site.
  */
 const META = {
-  title: "Page not found — Weather by devFazla",
+  title: "Page not found · Weather by devFazla",
   description:
     "That address isn't part of the weather dashboard. The forecast and the contact form are one click away.",
   // Nothing here is worth indexing, so the canonical simply points back at the
